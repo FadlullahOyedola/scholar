@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Register • ScholarSpace</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .fade-in { animation: fadeIn 0.6s ease-in-out; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-100 transition-colors duration-500">
+
+  <!-- Navbar -->
+  <header class="w-full shadow-md bg-white dark:bg-gray-800 sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
+      <h1 class="text-2xl font-bold text-indigo-600 dark:text-indigo-400">ScholarSpace</h1>
+      <button id="darkToggle" class="ml-4 p-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:scale-105 transition">🌙</button>
+    </div>
+  </header>
+
+  <!-- Register Form -->
+  <section class="flex items-center justify-center min-h-[80vh] px-6 fade-in">
+    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 w-full max-w-md">
+      <h2 class="text-3xl font-bold mb-6 text-center">📝 Register</h2>
+      <form id="registerForm" class="space-y-6">
+        <div>
+          <label class="block mb-2 font-medium">Full Name</label>
+          <input type="text" id="name" required class="w-full p-3 rounded-xl border border-gray-300 dark:border-gray-700 bg-transparent outline-none focus:ring-2 focus:ring-indigo-500" />
+        </div>
+        <div>
+          <label class="block mb-2 font-medium">Email</label>
+          <input type="email" id="email" required class="w-full p-3 rounded-xl border border-gray-300 dark:border-gray-700 bg-transparent outline-none focus:ring-2 focus:ring-indigo-500" />
+        </div>
+        <div>
+          <label class="block mb-2 font-medium">Password</label>
+          <input type="password" id="password" required minlength="4" class="w-full p-3 rounded-xl border border-gray-300 dark:border-gray-700 bg-transparent outline-none focus:ring-2 focus:ring-indigo-500" />
+        </div>
+        <div>
+          <label class="block mb-2 font-medium">Confirm Password</label>
+          <input type="password" id="confirmPassword" required minlength="4" class="w-full p-3 rounded-xl border border-gray-300 dark:border-gray-700 bg-transparent outline-none focus:ring-2 focus:ring-indigo-500" />
+        </div>
+
+        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-xl font-semibold transition transform hover:scale-105">Register</button>
+      </form>
+
+      <p class="mt-6 text-center text-sm text-gray-500 dark:text-gray-400">
+        Already have an account? <a href="login.html" class="text-indigo-600 dark:text-indigo-400 hover:underline">Login</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-100 dark:bg-gray-800 py-6 mt-12">
+    <div class="max-w-6xl mx-auto text-center text-gray-600 dark:text-gray-400">
+      © 2025 ScholarSpace. Secure your research.
+    </div>
+  </footer>
+
+  <script>
+    // Dark mode toggle
+    const toggle = document.getElementById('darkToggle');
+    const html = document.documentElement;
+    if (localStorage.getItem('theme') === 'dark') html.classList.add('dark');
+    toggle.addEventListener('click', () => {
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+
+    // Real register with backend API
+    const registerForm = document.getElementById('registerForm');
+    registerForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const confirm = document.getElementById('confirmPassword').value;
+
+      if (password !== confirm) {
+        alert("❌ Passwords do not match!");
+        return;
+      }
+
+      try {
+        const res = await fetch("http://localhost:5000/api/auth/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, email, password })
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+          alert("✅ Registration successful! Redirecting to login...");
+          window.location.href = "login.html";
+        } else {
+          alert("❌ " + (data.error || "Registration failed"));
+        }
+      } catch (err) {
+        console.error(err);
+        alert("⚠️ Server error. Please try again later.");
+      }
+    });
+  </script>
+</body>
+</html>

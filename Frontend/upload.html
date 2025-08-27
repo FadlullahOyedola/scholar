@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upload Paper • ScholarSpace</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .fade-in { animation: fadeIn 0.6s ease-in-out; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-100 transition-colors duration-500">
+
+  <!-- Navbar -->
+  <header class="w-full shadow-md bg-white dark:bg-gray-800 sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
+      <h1 class="text-2xl font-bold text-indigo-600 dark:text-indigo-400">ScholarSpace</h1>
+      <nav class="flex items-center space-x-6">
+        <a href="index.html" class="hover:text-indigo-500 transition">Home</a>
+        <a href="upload.html" class="hover:text-indigo-500 transition font-semibold">Upload</a>
+        <a href="dashboard.html" class="hover:text-indigo-500 transition">Dashboard</a>
+        <a href="profile.html" class="hover:text-indigo-500 transition">Profile</a>
+        <!-- Dark Mode Toggle -->
+        <button id="darkToggle" class="ml-4 p-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:scale-105 transition">
+          🌙
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Upload Form -->
+  <section class="max-w-3xl mx-auto py-16 px-6 fade-in">
+    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8">
+      <h2 class="text-3xl font-bold mb-6 text-center">📂 Upload Your Paper</h2>
+      <form id="uploadForm" class="space-y-6">
+        <div>
+          <label class="block mb-2 font-medium">Paper Title</label>
+          <input type="text" id="title" required class="w-full p-3 rounded-xl border border-gray-300 dark:border-gray-700 bg-transparent outline-none focus:ring-2 focus:ring-indigo-500" />
+        </div>
+        <div>
+          <label class="block mb-2 font-medium">Authors</label>
+          <input type="text" id="authors" required class="w-full p-3 rounded-xl border border-gray-300 dark:border-gray-700 bg-transparent outline-none focus:ring-2 focus:ring-indigo-500" />
+        </div>
+        <div>
+          <label class="block mb-2 font-medium">Year</label>
+          <input type="number" id="year" required class="w-full p-3 rounded-xl border border-gray-300 dark:border-gray-700 bg-transparent outline-none focus:ring-2 focus:ring-indigo-500" />
+        </div>
+        <div>
+          <label class="block mb-2 font-medium">Tags (comma separated)</label>
+          <input type="text" id="tags" placeholder="AI, Medicine, History" class="w-full p-3 rounded-xl border border-gray-300 dark:border-gray-700 bg-transparent outline-none focus:ring-2 focus:ring-indigo-500" />
+        </div>
+        <div>
+          <label class="block mb-2 font-medium">Upload PDF</label>
+          <input type="file" id="pdfFile" accept="application/pdf" required class="w-full p-3 rounded-xl border border-gray-300 dark:border-gray-700 bg-transparent" />
+        </div>
+
+        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-xl font-semibold transition transform hover:scale-105">Upload Paper</button>
+      </form>
+    </div>
+
+    <!-- PDF Preview -->
+    <div id="previewSection" class="hidden mt-10 bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 fade-in">
+      <h3 class="text-xl font-semibold mb-4">📑 PDF Preview</h3>
+      <embed id="pdfPreview" src="" type="application/pdf" class="w-full h-[500px] rounded-lg border border-gray-300 dark:border-gray-700" />
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-100 dark:bg-gray-800 py-6 mt-12">
+    <div class="max-w-6xl mx-auto text-center text-gray-600 dark:text-gray-400">
+      © 2025 ScholarSpace. Built with ❤️ for students & researchers.
+    </div>
+  </footer>
+
+  <script>
+    // Dark mode toggle
+    const toggle = document.getElementById('darkToggle');
+    const html = document.documentElement;
+    if (localStorage.getItem('theme') === 'dark') html.classList.add('dark');
+    toggle.addEventListener('click', () => {
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+
+    // Upload + Preview
+    const uploadForm = document.getElementById('uploadForm');
+    const pdfInput = document.getElementById('pdfFile');
+    const previewSection = document.getElementById('previewSection');
+    const pdfPreview = document.getElementById('pdfPreview');
+
+    uploadForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const file = pdfInput.files[0];
+      if (file) {
+        const fileURL = URL.createObjectURL(file);
+        pdfPreview.src = fileURL;
+        previewSection.classList.remove('hidden');
+      }
+      alert("✅ Paper uploaded successfully! (saved locally for now)");
+    });
+  </script>
+</body>
+</html>

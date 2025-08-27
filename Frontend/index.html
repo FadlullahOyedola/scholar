@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ScholarSpace • Discover Research</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .fade-in {
+      animation: fadeIn 0.6s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-100 transition-colors duration-500">
+  
+  <!-- Navbar -->
+  <header class="w-full shadow-md bg-white dark:bg-gray-800 sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
+      <h1 class="text-2xl font-bold text-indigo-600 dark:text-indigo-400">ScholarSpace</h1>
+      <nav class="flex items-center space-x-6">
+        <a href="index.html" class="hover:text-indigo-500 transition">Home</a>
+        <a href="upload.html" class="hover:text-indigo-500 transition">Upload</a>
+        <a href="dashboard.html" class="hover:text-indigo-500 transition">Dashboard</a>
+        <a href="profile.html" class="hover:text-indigo-500 transition">Profile</a>
+        <!-- Dark Mode Toggle -->
+        <button id="darkToggle" class="ml-4 p-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:scale-105 transition">
+          🌙
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="max-w-5xl mx-auto text-center py-20 px-6 fade-in">
+    <h2 class="text-4xl font-bold mb-4">Discover & Share Academic Knowledge</h2>
+    <p class="text-lg text-gray-600 dark:text-gray-300 mb-8">Search across disciplines, upload your research, and build your academic library in one place.</p>
+    
+    <!-- Search Bar -->
+    <div class="flex items-center bg-white dark:bg-gray-800 shadow-lg rounded-2xl overflow-hidden max-w-2xl mx-auto">
+      <input type="text" placeholder="Search research papers..." 
+        class="w-full px-4 py-3 text-gray-700 dark:text-gray-200 bg-transparent outline-none" />
+      <button class="bg-indigo-600 text-white px-6 py-3 hover:bg-indigo-700 transition">🔎</button>
+    </div>
+  </section>
+
+  <!-- Feature Section -->
+  <section class="max-w-6xl mx-auto px-6 py-16 grid md:grid-cols-3 gap-8 fade-in">
+    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 hover:scale-105 transition">
+      <h3 class="text-xl font-semibold mb-2">📂 Upload Papers</h3>
+      <p class="text-gray-600 dark:text-gray-300">Easily upload PDFs with abstracts and tags to organize your academic work.</p>
+    </div>
+    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 hover:scale-105 transition">
+      <h3 class="text-xl font-semibold mb-2">🔎 Smart Search</h3>
+      <p class="text-gray-600 dark:text-gray-300">Find papers by title, author, year, or keywords with our clean and fast search.</p>
+    </div>
+    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 hover:scale-105 transition">
+      <h3 class="text-xl font-semibold mb-2">📊 Analytics</h3>
+      <p class="text-gray-600 dark:text-gray-300">Track your uploads, popular tags, and research activity over time.</p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-100 dark:bg-gray-800 py-6 mt-12">
+    <div class="max-w-6xl mx-auto text-center text-gray-600 dark:text-gray-400">
+      © 2025 ScholarSpace. Built with ❤️ for students & researchers.
+    </div>
+  </footer>
+
+  <script>
+    // Dark mode toggle
+    const toggle = document.getElementById('darkToggle');
+    const html = document.documentElement;
+
+    if (localStorage.getItem('theme') === 'dark') {
+      html.classList.add('dark');
+    }
+
+    toggle.addEventListener('click', () => {
+      html.classList.toggle('dark');
+      if (html.classList.contains('dark')) {
+        localStorage.setItem('theme', 'dark');
+      } else {
+        localStorage.setItem('theme', 'light');
+      }
+    });
+  </script>
+</body>
+</html>
